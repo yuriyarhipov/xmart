@@ -1,0 +1,92 @@
+<!-- START HEADER -->
+<div class="header " ng-class="{'transparent': is('app.maps.vector') || is('app.maps.google') }">
+    <!-- START MOBILE CONTROLS -->
+    <!-- LEFT SIDE -->
+    <div class="pull-left full-height visible-sm visible-xs">
+        <!-- START ACTION BAR -->
+        <div class="sm-action-bar">
+            <a href="" class="btn-link toggle-sidebar" data-toggle="sidebar">
+                <span class="icon-set menu-hambuger"></span>
+            </a>
+        </div>
+        <!-- END ACTION BAR -->
+    </div>
+    <!-- RIGHT SIDE -->
+    <div class="pull-right full-height visible-sm visible-xs">
+        <!-- START ACTION BAR -->
+        <div class="sm-action-bar">
+            <a href="" class="btn-link" data-toggle="quickview" data-toggle-element="#quickview">
+                <span class="icon-set menu-hambuger-plus"></span>
+            </a>
+        </div>
+        <!-- END ACTION BAR -->
+    </div>
+    <!-- END MOBILE CONTROLS -->
+    <div class=" pull-left sm-table">
+        <div class="header-inner">
+            <div class="brand inline">
+
+            </div>
+            <!-- BEGIN NOTIFICATION DROPDOWN -->
+            <ul class="notification-list no-margin hidden-sm hidden-xs b-grey b-l b-r no-style p-l-30 p-r-20">
+                <li class="p-r-15 inline">
+                    <div class="dropdown pull-left">
+                        <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="title">Projects</span>
+                        </button>
+                        <ul class="dropdown-menu profile-dropdown" role="menu">
+                            <li><a href="#/app/create_project">Create Project</a>
+                            </li>
+                            <li><a href="#/app/projects">Projects</a>
+                            </li>
+                            <li><a href="#/app/fileshub">File Hub</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="p-r-15 inline">
+                    <div class="dropdown pull-left">
+                        <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="title">Parameters</span>
+                        </button>
+                        <ul class="dropdown-menu profile-dropdown" role="menu">
+                            <li><a href="">By Technology</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            <!-- END NOTIFICATION DROPDOWN -->
+        </div>
+    </div>
+    <div class=" pull-right">
+        <!-- START User Info-->
+        <div class="visible-lg visible-md m-t-10">
+            <div class="pull-left p-r-10 p-t-10 fs-16 font-heading">
+                <span class="semi-bold">{{ app.user }}</span>
+            </div>
+            <div class="dropdown pull-right">
+                <button class="profile-dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="thumbnail-wrapper d32 circular inline m-t-5">
+                <img src="assets/img/profiles/avatar.jpg" alt="" data-src="assets/img/profiles/avatar.jpg" ui-jq="unveil" data-src-retina="assets/img/profiles/avatar_small2x.jpg" width="32" height="32">
+            </span>
+                </button>
+                <ul class="dropdown-menu profile-dropdown" role="menu">
+                    <li><a href="">{{ app.user }}</a>
+                    </li>
+                    <li><a href="#/app/change_pass">Change Password</a>
+                    </li>
+                    </li>
+                    <li class="bg-master-lighter">
+                        <a href="" class="clearfix" ng-click='logout()'>
+                            <span class="pull-left">Logout</span>
+                            <span class="pull-right"><i class="pg-power"></i></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- END User Info-->
+    </div>
+</div>
+<!-- END HEADER -->
