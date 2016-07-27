@@ -13,17 +13,16 @@ angular.module('app')
         }];
 
         $httpProvider.interceptors.push('jwtInterceptor');
-    })
+    })    
     .controller('AppCtrl', ['$scope', '$rootScope', '$state', 'jwtHelper', '$window', function ($scope, $rootScope, $state, jwtHelper, $window) {
         // App globals
-        var token = localStorage.getItem('id_token');
         var username;
+        var token = localStorage.getItem('id_token');        
         if (token){
             username = jwtHelper.decodeToken(token).username;
         } else {
             $window.location.href ='#/login';
-        }
-
+        }        
         $scope.app = {
             name: 'Xmart Parser',
             user: username,
