@@ -4,9 +4,17 @@
 
 angular.module('app')
     .controller('ProjectsCtrl', ['$scope', '$http', function($scope, $http) {
-        $http.get('/api/projects').success(function(data) {
-            $scope.projects = data;
-        });
+        var get_projects = function(){
+            $http.get('/api/projects').success(function(data) {
+                $scope.projects = data;
+            });
+        };
+        get_projects();
+        $scope.onDelete = function(id){
+            $http.delete('/api/projects/' + id + '/').success(function(){
+                get_projects();
+            });
+        }
     }])
     .controller('CreateProjectCtrl', ['$scope', '$http', '$window', function($scope, $http, $window) {
         $scope.onSave = function(data){

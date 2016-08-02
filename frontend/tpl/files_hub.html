@@ -15,7 +15,7 @@
         <div class="col-md-6">
             <form role="form">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Description"/>
+                    <input type="text" class="form-control" placeholder="Description" ng-model="description"/>
                 </div>
                 <div class="form-group">
                     <ui-select ng-model="vendor.selected" theme="bootstrap" ng-change="onChangeVendor()">
@@ -42,26 +42,26 @@
                     </ui-select>
                 </div>
                 <div class="form-group">
-                    <input type="file"/>
+                    <input type="file" nv-file-select="" uploader="uploader" />
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary btn-cons">Upload</button>
+                    <button class="btn btn-primary btn-cons" ng-click="uploadFile()">Upload</button>
                 </div>
             </form>
         </div>
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-3">
-                    <button class="btn btn-primary btn-cons">Process All</button>
+                    <button class="btn btn-primary btn-cons" ng-click="onProcessAll()">Process All</button>
                 </div>
                 <div class="col-md-3">
-                    <button class="btn btn-danger btn-cons">Delete All</button>
+                    <button class="btn btn-danger btn-cons" ng-click="onDeleteAll()">Delete All</button>
                 </div>
                 <div class="col-md-6">
 
                 </div>
             </div>
-            <table class="table">
+            <table class="table ">
                 <thead>
                     <tr>
                         <td>FileName</td>
@@ -69,6 +69,19 @@
                         <td>FileType</td>
                     </tr>
                 </thead>
+                <tbody>
+                    <tr ng-repeat="uf in uploaded_files">
+                        <td>
+                            {{ uf.filename }}
+                        </td>
+                        <td>
+                            {{ uf.description }}
+                        </td>
+                        <td>
+                            {{ uf.filetype }}
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>
@@ -86,6 +99,19 @@
                     <td>Action</td>
                 </tr>
             </thead>
+            <tbody>
+                <tr ng-repeat="f in work_files">
+                    <td></td>
+                    <td> {{ f.filename }}</td>
+                    <td>{{ f.filetype }}</td>
+                    <td>{{ f.network }}</td>
+                    <td>{{ f.vendor }}</td>
+                    <td>{{ f.description }}</td>
+                    <td>Status</td>
+                    <td>Action</td>
+                </tr>
+            </tbody>
+
         </table>
     </div>
 </div>

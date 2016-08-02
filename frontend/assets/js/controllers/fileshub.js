@@ -3,8 +3,8 @@
 /* Controllers */
 
 angular.module('app')
-    .controller('FilesHubCtrl', ['$scope', '$http', function($scope, $http) {
-        $scope.vendors = ['Ericsson', 'Nokia', 'Huawei', 'Universal'];
+    .controller('FilesHubCtrl', ['$scope', '$http', 'FileUploader', '$interval', function($scope, $http, FileUploader, $interval) {
+        $scope.vendors = ['Ericsson', 'Nokia', 'Huawei', 'Universal', ];
         $scope.vendor = {
             'selected': 'Ericsson'
         }
@@ -41,6 +41,7 @@ angular.module('app')
                     'HISTOGRAM FORMAT COUNTER',
                     'HISTOGRAM FILE COUNTER - Access Distance',
                     'Drive Test',
+                    'Gpeh',
                 ];
             }
             if (($scope.network.selected == 'WCDMA') && ($scope.vendor.selected == 'Nokia')) {
@@ -82,4 +83,61 @@ angular.module('app')
                 'selected': $scope.filetypes[0]
             }
         };
+        var token = localStorage.getItem('id_token');
+        var uploader = $scope.uploader = new FileUploader({
+            url: '/api/upload_file/',
+            removeAfterUpload: true,
+            withCredentials: true,
+            headers: {
+                'Authorization': 'Bearer ' + token,
+            },
+        });
+
+        uploader.onAfterAddingFile = function(fileItem) {
+            fileItem.formData.push({
+                'description': $scope.description,
+                'vendor': $scope.vendor.selected,
+                'network': $scope.network.selected,
+                'file_type': $scope.filetype.selected,
+            });
+        };
+
+        $scope.uploadFile = function(){
+            while (uploader.queue.length > 1){
+                uploader.removeFromQueue(uploader.queue[0])
+            }
+            uploader.uploadAll()
+            $http.get('/api/uploaded_files/').success(function(data){
+                $scope.uploaded_files = data;
+            });
+        };
+        var get_work_files = function(){
+            $http.get('/api/work_files/').success(function(data){
+                $scope.work_files = data;
+            });
+        };
+        var get_uploaded_files = function(){
+            $http.get('/api/uploaded_files/').success(function(data){
+                $scope.uploaded_files = data;
+            });
+        };
+        
+        $interval(get_uploaded_files, 1000);
+        $interval(get_work_files, 1000);
+
+        $scope.onProcessAll = function(){
+            $http.post('/api/process_all/').success(function(){
+                get_uploaded_files();
+            });
+        };
+
+        $scope.onDeleteAll = function(){
+            for (var i in $scope.uploaded_files){
+                $http.delete('/api/uploaded_files/' + $scope.uploaded_files[i].id + '/').success(function(){
+                    get_uploaded_files();
+                });
+            }
+        }
+
+
     }]);

@@ -10,6 +10,6 @@ angular.module('app', [
     'ui.router',
     'ui.utils',
     'oc.lazyLoad',
-    'angular-jwt'
+    'angular-jwt',
+    'angularFileUpload'
 ]);
- 
