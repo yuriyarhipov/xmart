@@ -44,7 +44,7 @@ angular.module('app')
                     'Gpeh',
                 ];
             }
-            if (($scope.network.selected == 'WCDMA') && ($scope.vendor.selected == 'Nokia')) {
+            if  ($scope.vendor.selected == 'Nokia') {
                 $scope.filetypes = [
                     'Configuration Management XML File',
                 ];
@@ -121,7 +121,7 @@ angular.module('app')
                 $scope.uploaded_files = data;
             });
         };
-        
+
         $interval(get_uploaded_files, 1000);
         $interval(get_work_files, 1000);
 
