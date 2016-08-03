@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import generics
 from projects.serializers import ProjectsSerializer, UploadedFilesSerializer, WorkFilesSerializer
-from projects.models import Projects, UploadedFiles, WorkFiles
+from projects.models import Projects, UploadedFiles, WorkFiles, Tables
 from rest_framework import permissions
 from tempfile import mkdtemp
 from multiprocessing import Process
@@ -67,6 +67,17 @@ def upload_file(request):
 @api_view(['POST', ])
 def process_all(request):
     for uf in UploadedFiles.objects.all():
-        p = Process(target=Parser().parse_file, args=(uf,))
+        p = Process(target=Parser().parse_file, args=(uf, ))
         p.start()
     return Response([])
+
+
+@api_view(['GET', ])
+def by_technology(request, vendor, network):
+    result = set()
+
+    for t in Tables.objects.filter(vendor=vendor, network=network):
+        result.add(t.table)
+    result = list(result)
+    result.sort()
+    return Response(result)

@@ -95,8 +95,7 @@
                     <td>Network</td>
                     <td>Vendor</td>
                     <td>Description</td>
-                    <td>Status</td>
-                    <td>Action</td>
+                    <td>File</td>
                 </tr>
             </thead>
             <tbody>
@@ -107,8 +106,7 @@
                     <td>{{ f.network }}</td>
                     <td>{{ f.vendor }}</td>
                     <td>{{ f.description }}</td>
-                    <td>Status</td>
-                    <td>Action</td>
+                    <td><a href='/static/{{ f.result }}'>{{ f.result }}</td>
                 </tr>
             </tbody>
 

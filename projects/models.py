@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 from django.contrib.auth.models import User
 # Create your models here.
 
@@ -21,3 +22,11 @@ class WorkFiles(models.Model):
     network = models.TextField()
     filetype = models.TextField()
     vendor = models.TextField()
+    result = models.TextField()
+
+class Tables(models.Model):
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE)
+    vendor = models.TextField()
+    network = models.TextField()
+    table = models.TextField()
+    data = JSONField()

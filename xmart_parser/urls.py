@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^api/uploaded_files/(?P<pk>[0-9]+)/$', uploaded_files_detail, name='uploaded-files-detail'),
     url(r'^api/projects/$', project_list, name='project-list'),
     url(r'^api/projects/(?P<pk>[0-9]+)/$', project_detail, name='project-detail'),
+    url(r'^api/by_technology/(\S+)/(\S+)/$', views.by_technology),
     url(r'^api/change_pass/$', views.change_pass),
     url(r'^api/upload_file/$', views.upload_file),
     url(r'^api/process_all/$', views.process_all),

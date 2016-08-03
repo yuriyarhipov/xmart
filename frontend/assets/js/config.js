@@ -71,6 +71,24 @@ angular.module('app')
                         }]
                     }
                 })
+                .state('app.by_technology', {
+                    url: "/by_technology",
+                    templateUrl: "tpl/by_technology.html",
+                    controller: 'byTechnologyCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                    'nestable',
+                                    'select'
+                                ], {
+                                    insertBefore: '#lazyload_placeholder'
+                                })
+                                .then(function() {
+                                    return $ocLazyLoad.load('assets/js/controllers/by_technology.js');
+                                });
+                        }]
+                    }
+                })
                 .state('login', {
                     url: "/login",
                     templateUrl: "tpl/login.html",

@@ -122,8 +122,8 @@ angular.module('app')
             });
         };
 
-        $interval(get_uploaded_files, 1000);
-        $interval(get_work_files, 1000);
+        $interval(get_uploaded_files, 2000);
+        $interval(get_work_files, 2000);
 
         $scope.onProcessAll = function(){
             $http.post('/api/process_all/').success(function(){
