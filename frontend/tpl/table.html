@@ -1,0 +1,18 @@
+<!-- START PAGE COVER -->
+<div class="container-fluid container-fixed-lg ">
+    <ul class="breadcrumb">
+        <li>
+            <a href="#">Home</a>
+        </li>
+        <li>
+            <a href="#/app/by_technology">By Technology</a>
+        </li>
+        <li><a class="active" href="#">{{ table }}</a>
+        </li>
+    </ul>
+    <!-- END BREADCRUMB -->
+    <h3 class="page-title">{{ table }}</h3>
+</div>
+<div class="container-fluid container-fixed-lg">
+    <div ui-grid="table_config" ui-grid-resize-columns ui-grid-move-columns ui-grid-cellNav></div>
+</div>

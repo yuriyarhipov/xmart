@@ -81,3 +81,10 @@ def by_technology(request, vendor, network):
     result = list(result)
     result.sort()
     return Response(result)
+
+@api_view(['GET', ])
+def table(request, table):
+    table = Tables.objects.filter(table=table).first()
+    data = table.data
+    columns = data[0].keys()
+    return Response({'data': data, 'columns': columns})

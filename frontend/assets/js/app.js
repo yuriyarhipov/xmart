@@ -11,5 +11,6 @@ angular.module('app', [
     'ui.utils',
     'oc.lazyLoad',
     'angular-jwt',
-    'angularFileUpload'
+    'angularFileUpload',
+    'ui.grid',
 ]);

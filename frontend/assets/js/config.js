@@ -53,6 +53,23 @@ angular.module('app')
                         }]
                     }
                 })
+                .state('app.table', {
+                    url: "/table/:table",
+                    templateUrl: "tpl/table.html",
+                    controller: 'tableCtrl',
+                    resolve: {
+                        deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load([
+                                    'nestable',
+                                ], {
+                                    insertBefore: '#lazyload_placeholder'
+                                })
+                                .then(function() {
+                                    return $ocLazyLoad.load('assets/js/controllers/table.js');
+                                });
+                        }]
+                    }
+                })
                 .state('app.fileshub', {
                     url: "/fileshub",
                     templateUrl: "tpl/files_hub.html",
