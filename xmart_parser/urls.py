@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^api/change_pass/$', views.change_pass),
     url(r'^api/upload_file/$', views.upload_file),
     url(r'^api/process_all/$', views.process_all),
+    url(r'^api/get_excel/$', views.get_excel),
     url(r'^api/api-token-auth/', obtain_jwt_token),
     url(r'^api/admin/', admin.site.urls),
 ]

@@ -15,6 +15,10 @@ angular.module('app')
         $scope.onChange = function(){
             $http.get('/api/by_technology/' + $scope.vendor.selected + '/' + $scope.network.selected + '/').success(function(data){
                 $scope.tables = data;
+                $scope.url_tables = '/api/get_excel/?';
+                for (var id in $scope.tables){
+                    $scope.url_tables += '&table=' + $scope.tables[id]
+                }
             });
         };
         $scope.onChange();

@@ -31,11 +31,12 @@ class Nokia():
             events=('end',),
             tag='{raml20.xsd}managedObject')
         for event, elem in context:
-
             table_name = elem.get('class')
+            mo = elem.get('distName')
             tables.add(table_name)
             row = self.get_data(elem)
-
+            row['mo'] = mo
+            mo = print(mo)
             if table_name in self.data:
                 self.data[table_name].append(row)
             else:

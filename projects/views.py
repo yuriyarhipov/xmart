@@ -10,7 +10,10 @@ from tempfile import mkdtemp
 from multiprocessing import Process
 from os.path import join
 from projects.parser import Parser
-
+import pandas as pd
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view, permission_classes
+from django.shortcuts import HttpResponseRedirect
 
 class ProjectsViewSet(viewsets.ModelViewSet):
     queryset = Projects.objects.all()
@@ -96,3 +99,17 @@ def table(request, table):
     columns = list(data[0].keys())
     columns.sort()
     return Response({'data': data, 'columns': columns})
+
+@api_view(['GET', ])
+@permission_classes((AllowAny, ))
+def get_excel(request):
+    tables = request.GET.getlist('table')
+    data = []
+    writer = pd.ExcelWriter('frontend/static/report.xlsx')
+    for table in tables:
+        for t in Tables.objects.filter(table=table, workfile__project=request.project):
+            data.extend(t.data)
+        df = pd.DataFrame.from_dict(data)
+        df.to_excel(writer, table)
+    writer.save()
+    return HttpResponseRedirect('/static/report.xlsx')
