@@ -31,10 +31,15 @@
     </form>
     <div class="col-md-12">
       <a class="btn btn-warn" href="{{ url_tables }}">Download Excel</a>
+
     </div>
+
     <table class="table">
         <tbody>
             <tr ng-repeat="table in tables">
+                <td>
+                  <input type="checkbox" ng-model="checkboxTables[table]" ng-click="onClicktable()">
+                </td>
                 <td>
                     <a href="#app/table/{{ table }}">{{ table }}</a>
                 </td>

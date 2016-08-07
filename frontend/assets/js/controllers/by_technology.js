@@ -12,14 +12,21 @@ angular.module('app')
         $scope.network = {
             'selected': 'GSM'
         };
+        $scope.checkboxTables = {};
         $scope.onChange = function(){
             $http.get('/api/by_technology/' + $scope.vendor.selected + '/' + $scope.network.selected + '/').success(function(data){
                 $scope.tables = data;
                 $scope.url_tables = '/api/get_excel/?';
-                for (var id in $scope.tables){
-                    $scope.url_tables += '&table=' + $scope.tables[id]
-                }
+
             });
         };
         $scope.onChange();
+        $scope.onClicktable = function(){
+          $scope.url_tables = '/api/get_excel/?';
+          for (var table_name in $scope.checkboxTables){
+              if ($scope.checkboxTables[table_name]){
+                  $scope.url_tables += '&table=' + table_name;
+              }
+          }
+        };
     }]);
