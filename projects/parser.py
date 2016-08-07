@@ -26,7 +26,7 @@ class Parser:
             for f in unpacked_files:
                 gp = Gpeh().parse_file(f)
                 WorkFiles.objects.create(
-                    project = Projects.objects.filter().first(),
+                    project = uploaded_file.project,
                     filename = uploaded_file.filename,
                     description = uploaded_file.description,
                     network = uploaded_file.network,
@@ -35,65 +35,68 @@ class Parser:
                     result = os.path.basename(gp)
                 )
         elif uploaded_file.vendor == 'Nokia':
+            wf = WorkFiles.objects.create(
+                project = uploaded_file.project,
+                filename = uploaded_file.filename,
+                description = uploaded_file.description,
+                network = uploaded_file.network,
+                filetype = uploaded_file.filetype,
+                vendor = uploaded_file.vendor,
+                result = ''
+            )
             for f in unpacked_files:
                 nokia = Nokia(f)
                 for table, data in nokia.data.items():
                     Tables.objects.create(
-                        project = Projects.objects.filter().first(),
+                        workfile = wf,
                         vendor = 'Nokia',
                         network = uploaded_file.network,
                         table = table,
                         data = data,
                     )
-                WorkFiles.objects.create(
-                    project = Projects.objects.filter().first(),
-                    filename = uploaded_file.filename,
-                    description = uploaded_file.description,
-                    network = uploaded_file.network,
-                    filetype = uploaded_file.filetype,
-                    vendor = uploaded_file.vendor,
-                    result = ''
-                )
+
         elif uploaded_file.vendor == 'Ericsson':
+            wf = WorkFiles.objects.create(
+                project = uploaded_file.project,
+                filename = uploaded_file.filename,
+                description = uploaded_file.description,
+                network = uploaded_file.network,
+                filetype = uploaded_file.filetype,
+                vendor = uploaded_file.vendor,
+                result = ''
+            )
             for f in unpacked_files:
                 ericsson = Ericsson(f)
                 for table, data in ericsson.data.items():
                     Tables.objects.create(
-                        project = Projects.objects.filter().first(),
+                        workfile = wf,
                         vendor = uploaded_file.vendor,
                         network = uploaded_file.network,
                         table = table,
                         data = data,
                     )
-                WorkFiles.objects.create(
-                    project = Projects.objects.filter().first(),
-                    filename = uploaded_file.filename,
-                    description = uploaded_file.description,
-                    network = uploaded_file.network,
-                    filetype = uploaded_file.filetype,
-                    vendor = uploaded_file.vendor,
-                    result = ''
-                )
+
+
         elif uploaded_file.vendor == 'Huawei':
+            wf = WorkFiles.objects.create(
+                project = uploaded_file.project,
+                filename = uploaded_file.filename,
+                description = uploaded_file.description,
+                network = uploaded_file.network,
+                filetype = uploaded_file.filetype,
+                vendor = uploaded_file.vendor,
+                result = ''
+            )
             for f in unpacked_files:
                 hw = HuaweiWCDMA(f)
-                print(hw.data.get('ANTENNAPORT'))
                 for table, data in hw.data.items():
                     Tables.objects.create(
-                        project = Projects.objects.filter().first(),
+                        workfile = wf,
                         vendor = uploaded_file.vendor,
                         network = uploaded_file.network,
                         table = table,
                         data = data,
                     )
-                WorkFiles.objects.create(
-                    project = Projects.objects.filter().first(),
-                    filename = uploaded_file.filename,
-                    description = uploaded_file.description,
-                    network = uploaded_file.network,
-                    filetype = uploaded_file.filetype,
-                    vendor = uploaded_file.vendor,
-                    result = ''
-                )
+
 
         uploaded_file.delete()

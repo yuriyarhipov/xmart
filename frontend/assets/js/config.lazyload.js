@@ -1,7 +1,7 @@
 /* ============================================================
  * File: config.lazyload.js
- * Configure modules for ocLazyLoader. These are grouped by 
- * vendor libraries. 
+ * Configure modules for ocLazyLoader. These are grouped by
+ * vendor libraries.
  * ============================================================ */
 
 angular.module('app')
@@ -147,10 +147,9 @@ angular.module('app')
                 }, {
                     //https://github.com/angular-ui/ui-select
                     name: 'select',
-                    files: [
-                        'assets/plugins/bootstrap-select2/select2.css',
-                        'assets/plugins/angular-ui-select/select.min.css',
-                        'assets/plugins/angular-ui-select/select.min.js'
+                    files: [                        
+                        'https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.18.1/select.css',
+                        'https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.18.1/select.min.js'
                     ]
                 }, {
                     name: 'datepicker',

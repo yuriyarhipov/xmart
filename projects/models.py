@@ -25,7 +25,7 @@ class WorkFiles(models.Model):
     result = models.TextField()
 
 class Tables(models.Model):
-    project = models.ForeignKey(Projects, on_delete=models.CASCADE)
+    workfile = models.ForeignKey(WorkFiles, on_delete=models.CASCADE)
     vendor = models.TextField()
     network = models.TextField()
     table = models.TextField()

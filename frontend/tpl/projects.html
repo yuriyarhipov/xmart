@@ -13,7 +13,7 @@
 <div class="container-fluid container-fixed-lg">
     <table class="table">
         <tr ng-repeat="project in projects">
-            <td>{{ project.name }}</td>
+            <td><a href ng-click="onClick(project.id)">{{ project.name }}</td>
             <td><button class="btn btn-danger" ng-click="onDelete(project.id)">Delete</button></td>
         </tr>
     </table>

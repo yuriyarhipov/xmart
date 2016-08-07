@@ -12,7 +12,6 @@ from os.path import join
 from projects.parser import Parser
 
 
-
 class ProjectsViewSet(viewsets.ModelViewSet):
     queryset = Projects.objects.all()
     serializer_class = ProjectsSerializer
@@ -24,15 +23,22 @@ class UploadedFilesViewSet(viewsets.ModelViewSet):
     queryset = UploadedFiles.objects.all()
     serializer_class = UploadedFilesSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        return UploadedFiles.objects.filter(project=self.request.project)
+
     def perform_create(self, serializer):
-        serializer.save(project=Projects.objects.filter().first().name)
+        serializer.save(project=self.request.project.name)
 
 class WorkFilesViewSet(viewsets.ModelViewSet):
-    queryset = WorkFiles.objects.all()
     serializer_class = WorkFilesSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        return WorkFiles.objects.filter(project=self.request.project)
+
     def perform_create(self, serializer):
-        serializer.save(project=Projects.objects.filter().first().name)
+        serializer.save(project=self.request.project.name)
 
 
 @api_view(['POST', ])
@@ -54,7 +60,7 @@ def upload_file(request):
         for chunk in uploaded_file.chunks():
             f.write(chunk)
     UploadedFiles.objects.create(
-        project = Projects.objects.filter().first(),
+        project = request.project,
         filename = filename,
         description = request.POST.get('description'),
         network = request.POST.get('network'),
@@ -75,8 +81,8 @@ def process_all(request):
 @api_view(['GET', ])
 def by_technology(request, vendor, network):
     result = set()
-
-    for t in Tables.objects.filter(vendor=vendor, network=network):
+    project = request.project
+    for t in Tables.objects.filter(vendor=vendor, network=network, workfile__project=project):
         result.add(t.table)
     result = list(result)
     result.sort()
@@ -84,7 +90,9 @@ def by_technology(request, vendor, network):
 
 @api_view(['GET', ])
 def table(request, table):
-    table = Tables.objects.filter(table=table).first()
-    data = table.data
-    columns = data[0].keys()
+    data = []
+    for table in Tables.objects.filter(table=table, workfile__project=request.project):
+        data.extend(table.data)
+    columns = list(data[0].keys())
+    columns.sort()
     return Response({'data': data, 'columns': columns})

@@ -9,7 +9,7 @@ angular.module('app')
         function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $httpProvider) {
             $httpProvider.defaults.xsrfCookieName = 'csrftoken';
             $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-
+            
             $urlRouterProvider
                 .otherwise('/login');
 

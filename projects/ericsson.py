@@ -56,10 +56,71 @@ class Ericsson(object):
         return result
 
     def get_fields(self, node, table_name):
-        result = dict()
+        result = dict(
+            FileName=basename(self.filename),
+            MO=', '.join(self.get_mo(node)),
+            vendorName=self.vendorName,
+            version=self.version,)
         result.update(self.get_additional_fields(node, table_name))
 
+        mo = self.parse_mo(result['MO'])
 
+        if 'UtranCell' in mo:
+            result['UtranCell'] = mo.get('UtranCell', '')
+
+        if 'EUtranCellFDD' in mo:
+            result['EUtranCellFDD'] = mo.get('EUtranCellFDD', '')
+
+        if 'SectorEquipmentFunction' in mo:
+            result['SectorEquipmentFunction'] = mo.get(
+                'SectorEquipmentFunction',
+                '')
+
+        if 'AntennaUnitGroup' in mo:
+            result['AntennaUnitGroup'] = mo.get('AntennaUnitGroup', '')
+
+        if table_name == 'GsmRelation':
+            result['GsmRelation'] = mo.get('GsmRelation', '')
+
+        if 'IubLink' in mo:
+            result['IubLink'] = mo.get('IubLink')
+
+        if 'Iub' in mo:
+            result['Iub'] = mo.get('Iub')
+
+        if 'IurLink' in mo:
+            result['IurLink'] = mo.get('IurLink')
+
+        if 'UeRabType' in mo:
+            result['UeRabType'] = mo.get('UeRabType')
+
+        if 'UeRc' in mo:
+            result['UeRc'] = mo.get('UeRc')
+
+        if 'Carrier' in mo:
+            result['Carrier'] = mo.get('Carrier')
+
+        if 'TermPointToMme' in mo:
+            result['TermPointToMme'] = mo.get('TermPointToMme')
+
+        if 'Sector' in mo:
+            if 'Element' not in result:
+                result['Element'] = mo.get('MeContext', '')
+            result['Sector'] = mo.get('Sector')
+
+        if 'RbsLocalCell' in mo:
+            if 'Element' not in result:
+                result['Element'] = mo.get('MeContext', '')
+            result['SectorCarrier'] = mo.get('RbsLocalCell')
+
+        site = mo.get('MeContext')
+        sub = mo.get('SubNetwork')
+
+        if site and sub:
+            if site == sub:
+                result['Element1'] = site
+            else:
+                result['Element2'] = site
 
         for n in node.iter():
             if 'vsDataFormatVersion' in n.tag:

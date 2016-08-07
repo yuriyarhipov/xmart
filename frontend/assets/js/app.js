@@ -1,4 +1,4 @@
-/* ============================================================
+  /* ============================================================
  * File: app.js
  * Configure global module dependencies. Page specific modules
  * will be loaded on demand using ocLazyLoad
@@ -13,4 +13,5 @@ angular.module('app', [
     'angular-jwt',
     'angularFileUpload',
     'ui.grid',
+    'ngCookies',
 ]);

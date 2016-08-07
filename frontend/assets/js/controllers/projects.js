@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('app')
-    .controller('ProjectsCtrl', ['$scope', '$http', function($scope, $http) {
+    .controller('ProjectsCtrl', ['$scope', '$http', '$cookies', function($scope, $http, $cookies) {
         var get_projects = function(){
             $http.get('/api/projects').success(function(data) {
                 $scope.projects = data;
@@ -15,6 +15,9 @@ angular.module('app')
                 get_projects();
             });
         }
+        $scope.onClick = function(id){
+            $cookies.put('id_project', id);            
+        };
     }])
     .controller('CreateProjectCtrl', ['$scope', '$http', '$window', function($scope, $http, $window) {
         $scope.onSave = function(data){

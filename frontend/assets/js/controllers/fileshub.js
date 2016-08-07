@@ -4,6 +4,7 @@
 
 angular.module('app')
     .controller('FilesHubCtrl', ['$scope', '$http', 'FileUploader', '$interval', function($scope, $http, FileUploader, $interval) {
+        $scope.show_file_active = false;
         $scope.vendors = ['Ericsson', 'Nokia', 'Huawei', 'Universal', ];
         $scope.vendor = {
             'selected': 'Ericsson'
@@ -110,6 +111,7 @@ angular.module('app')
             $http.get('/api/uploaded_files/').success(function(data){
                 $scope.uploaded_files = data;
             });
+
         };
         var get_work_files = function(){
             $http.get('/api/work_files/').success(function(data){
@@ -126,6 +128,7 @@ angular.module('app')
         $interval(get_work_files, 2000);
 
         $scope.onProcessAll = function(){
+            $scope.show_file_active = true;
             $http.post('/api/process_all/').success(function(){
                 get_uploaded_files();
             });
@@ -138,6 +141,12 @@ angular.module('app')
                 });
             }
         }
+
+        $scope.onDeleteFile = function(file_id){
+            $http.delete('/api/work_files/' + file_id + '/').success(function(){
+                get_uploaded_files();
+            });
+        };
 
 
     }]);
