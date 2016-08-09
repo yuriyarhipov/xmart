@@ -14,6 +14,7 @@ import pandas as pd
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import HttpResponseRedirect
+from django.views.decorators.gzip import gzip_page
 
 class ProjectsViewSet(viewsets.ModelViewSet):
     queryset = Projects.objects.all()
@@ -92,6 +93,7 @@ def by_technology(request, vendor, network):
     return Response(result)
 
 @api_view(['GET', ])
+@gzip_page
 def table(request, table):
     data = []
     for table in Tables.objects.filter(table=table, workfile__project=request.project):
