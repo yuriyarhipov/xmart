@@ -10,7 +10,7 @@ from projects.huawei import HuaweiWCDMA
 
 class ExcelFile:
 
-    def __init__(self, tables):
+
 
     def main(self):
         tables = []
