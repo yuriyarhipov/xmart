@@ -38,7 +38,7 @@ class ExcelFile:
                 {'data': data,
                  'columns': columns})
         workbook.close()
-        print archive_filename
+    
         zip = ZipFile(archive_filename, 'w')
         zip.write(excel_filename, excel_name + '.xlsx')
         zip.close()
