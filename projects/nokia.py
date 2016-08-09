@@ -36,7 +36,6 @@ class Nokia():
             tables.add(table_name)
             row = self.get_data(elem)
             row['mo'] = mo
-            mo = print(mo)
             if table_name in self.data:
                 self.data[table_name].append(row)
             else:
