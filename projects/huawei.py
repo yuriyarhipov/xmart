@@ -1,3 +1,4 @@
+#! /home/arhipov/.virtualenvs/parser/bin/python3
 import re
 from lxml import etree
 

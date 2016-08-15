@@ -13,5 +13,6 @@ angular.module('app', [
     'angular-jwt',
     'angularFileUpload',
     'ui.grid',
+    'ui.grid.resizeColumns',
     'ngCookies',
 ]);

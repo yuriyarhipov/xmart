@@ -17,8 +17,12 @@ angular.module('app')
             $http.get('/api/by_technology/' + $scope.vendor.selected + '/' + $scope.network.selected + '/').success(function(data){
                 $scope.tables = data;
                 $scope.url_tables = '/api/get_excel/?';
-
+                for (var i in data){
+                    $scope.checkboxTables[data[i]] = true;
+                }
+                $scope.onClicktable();
             });
+
         };
         $scope.onChange();
         $scope.onClicktable = function(){

@@ -107,8 +107,9 @@ def table(request, table):
 def get_excel(request):
     tables = request.GET.getlist('table')
     data = []
-    writer = pd.ExcelWriter('frontend/static/report.xlsx')
+    writer = pd.ExcelWriter('frontend/static/report.xlsx', engine='xlsxwriter')
     for table in tables:
+        print(table)
         for t in Tables.objects.filter(table=table, workfile__project=request.project):
             data.extend(t.data)
         df = pd.DataFrame.from_dict(data)
