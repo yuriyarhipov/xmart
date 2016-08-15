@@ -1,7 +1,36 @@
-#! /home/arhipov/.virtualenvs/parser/bin/python3
 import re
 from lxml import etree
 
+
+class HuaweiConfig:
+    data = dict()
+
+    def __init__(self, filename):
+        self.filename = filename
+        self.from_file()
+
+    def get_row(self, data):
+        result = dict()
+        for v in data.split(','):
+            key, value = v.split('=')
+            key = key.strip().replace(';', '')
+            value = value.strip().replace(';', '')
+            value = value.strip().replace('"', '')
+            result[key] = value
+        return result
+
+    def from_file(self):
+        with open(self.filename) as f:
+            for row in f:
+                if (row[:2] != '//') and (':' in row):
+                    system_info, data_row = row.split(':')
+                    table_name = system_info.split()[1]
+                    data_row = self.get_row(data_row)
+                    if table_name in self.data:
+                        self.data[table_name].append(data_row)
+                    else:
+                        self.data[table_name] = [data_row, ]
+                        
 
 class HuaweiWCDMA:
     xml_mask = re.compile('\{.*\}')

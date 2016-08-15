@@ -6,7 +6,7 @@ from django.db import connection
 from projects.models import WorkFiles, Projects, Tables
 from projects.nokia import Nokia
 from projects.ericsson import Ericsson
-from projects.huawei import HuaweiWCDMA
+from projects.huawei import HuaweiWCDMA, HuaweiConfig
 
 class ExcelFile:
 
@@ -125,7 +125,10 @@ class Parser:
                 result = ''
             )
             for f in unpacked_files:
-                hw = HuaweiWCDMA(f)
+                if '.xml' in f:
+                    hw = HuaweiWCDMA(f)
+                else:
+                    hw = HuaweiConfig(f)
                 for table, data in hw.data.items():
                     Tables.objects.create(
                         workfile = wf,
