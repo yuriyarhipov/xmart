@@ -15,6 +15,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import HttpResponseRedirect
 from django.views.decorators.gzip import gzip_page
+import xlsxwriter
 
 class ProjectsViewSet(viewsets.ModelViewSet):
     queryset = Projects.objects.all()
@@ -105,14 +106,29 @@ def table(request, table):
 @api_view(['GET', ])
 @permission_classes((AllowAny, ))
 def get_excel(request):
-    tables = request.GET.getlist('table')
-    data = []
-    writer = pd.ExcelWriter('frontend/static/report.xlsx', engine='xlsxwriter')
+    tables = request.GET.getlist('table')        
+    workbook = xlsxwriter.Workbook('frontend/static/report.xlsx')
+
     for table in tables:
-        print(table)
+        data = []
+        columns = []
+        worksheet = workbook.add_worksheet(table)        
         for t in Tables.objects.filter(table=table, workfile__project=request.project):
-            data.extend(t.data)
-        df = pd.DataFrame.from_dict(data)
-        df.to_excel(writer, table)
-    writer.save()
+            if len(t.data) > 0:
+                columns.extend(t.data[0].keys())
+                data.extend(t.data)
+        columns = list(set(columns))
+        columns.sort()
+        excel_data = []
+        for row in data:
+            r = []
+            for col in columns:
+                r.append(row.get(col))
+            excel_data.append(r)
+
+        columns = [{'header': col} for col in columns]        
+        worksheet.add_table(0, 0, len(excel_data), len(columns)-1,
+                            {'data': excel_data,
+                             'columns': columns})
+    workbook.close()    
     return HttpResponseRedirect('/static/report.xlsx')
