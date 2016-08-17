@@ -79,7 +79,7 @@ def upload_file(request):
 
 @api_view(['POST', ])
 def process_all(request):
-    for uf in UploadedFiles.objects.all():
+    for uf in UploadedFiles.objects.filter(project=request.project):
         pool.apply_async(Parser().parse_file, (uf, ))                
     return Response([])
 
