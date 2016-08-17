@@ -11,7 +11,6 @@ from projects.huawei import HuaweiWCDMA, HuaweiConfig
 class ExcelFile:
 
 
-
     def main(self):
         tables = []
 
@@ -54,6 +53,7 @@ class Parser:
             for file in files]
 
     def parse_file(self, uploaded_file):
+        print('Parser')
         connection.close()
         unpacked_files = self.unpuck_files(uploaded_file.filename)
 

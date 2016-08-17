@@ -7,7 +7,7 @@ from projects.serializers import ProjectsSerializer, UploadedFilesSerializer, Wo
 from projects.models import Projects, UploadedFiles, WorkFiles, Tables
 from rest_framework import permissions
 from tempfile import mkdtemp
-from multiprocessing import Process
+from multiprocessing import Process, Pool
 from os.path import join
 from projects.parser import Parser
 import pandas as pd
@@ -16,6 +16,8 @@ from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import HttpResponseRedirect
 from django.views.decorators.gzip import gzip_page
 import xlsxwriter
+
+pool = Pool(processes=1)
 
 class ProjectsViewSet(viewsets.ModelViewSet):
     queryset = Projects.objects.all()
@@ -78,8 +80,7 @@ def upload_file(request):
 @api_view(['POST', ])
 def process_all(request):
     for uf in UploadedFiles.objects.all():
-        p = Process(target=Parser().parse_file, args=(uf, ))
-        p.start()
+        pool.apply_async(Parser().parse_file, (uf, ))                
     return Response([])
 
 
@@ -108,7 +109,6 @@ def table(request, table):
 def get_excel(request):
     tables = request.GET.getlist('table')        
     workbook = xlsxwriter.Workbook('frontend/static/report.xlsx')
-
     for table in tables:
         data = []
         columns = []
