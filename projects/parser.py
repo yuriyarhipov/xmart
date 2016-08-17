@@ -58,6 +58,7 @@ class Parser:
         unpacked_files = self.unpuck_files(uploaded_file.filename)
 
         if uploaded_file.filetype == 'Gpeh':
+            print('Gpeh')
             for f in unpacked_files:
                 gp = Gpeh().parse_file(f)
                 WorkFiles.objects.create(
@@ -70,6 +71,7 @@ class Parser:
                     result = os.path.basename(gp)
                 )
         elif uploaded_file.vendor == 'Nokia':
+            print('Nokia')
             wf = WorkFiles.objects.create(
                 project = uploaded_file.project,
                 filename = uploaded_file.filename,
@@ -81,8 +83,7 @@ class Parser:
             )
             for f in unpacked_files:
                 nokia = Nokia(f)
-                for table, data in nokia.data.items():
-                    print(table)
+                for table, data in nokia.data.items():                   
                     Tables.objects.create(
                         workfile = wf,
                         vendor = 'Nokia',
@@ -90,9 +91,10 @@ class Parser:
                         table = table,
                         data = data,
                     )
-            print('finish nokia')
+            
 
         elif uploaded_file.vendor == 'Ericsson':
+            print('Ericsson')
             wf = WorkFiles.objects.create(
                 project = uploaded_file.project,
                 filename = uploaded_file.filename,
@@ -115,6 +117,7 @@ class Parser:
 
 
         elif uploaded_file.vendor == 'Huawei':
+            print('Huawei')
             wf = WorkFiles.objects.create(
                 project = uploaded_file.project,
                 filename = uploaded_file.filename,
