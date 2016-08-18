@@ -15,7 +15,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import HttpResponseRedirect
 from django.views.decorators.gzip import gzip_page
-import xlsxwriter
+from pyexcelerate import Workbook
+
+
 
 pool = Pool(processes=1)
 
@@ -106,29 +108,24 @@ def table(request, table):
 
 @api_view(['GET', ])
 @permission_classes((AllowAny, ))
-def get_excel(request):
+def get_excel(request):    
     tables = request.GET.getlist('table')        
-    workbook = xlsxwriter.Workbook('frontend/static/report.xlsx')
+    wb = Workbook()
     for table in tables:
         data = []
         columns = []
-        worksheet = workbook.add_worksheet(table)        
         for t in Tables.objects.filter(table=table, workfile__project=request.project):
             if len(t.data) > 0:
                 columns.extend(t.data[0].keys())
                 data.extend(t.data)
         columns = list(set(columns))
         columns.sort()
-        excel_data = []
+        excel_data = [columns, ]
         for row in data:
             r = []
             for col in columns:
                 r.append(row.get(col))
             excel_data.append(r)
-
-        columns = [{'header': col} for col in columns]        
-        worksheet.add_table(0, 0, len(excel_data), len(columns)-1,
-                            {'data': excel_data,
-                             'columns': columns})
-    workbook.close()    
+        wb.new_sheet(table, data=excel_data)
+    wb.save('frontend/static/report.xlsx')        
     return HttpResponseRedirect('/static/report.xlsx')
