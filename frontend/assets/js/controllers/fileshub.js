@@ -52,8 +52,12 @@ angular.module('app')
             }
             if (($scope.network.selected == 'WCDMA') && ($scope.vendor.selected == 'Huawei')) {
                 $scope.filetypes = [
-                    'MMLCFG',
-                    'MML script file',
+                    'Single RAN CFG and Nodeb XML file',                    
+                ];
+            }
+            if (($scope.network.selected == 'LTE') && ($scope.vendor.selected == 'Huawei')) {
+                $scope.filetypes = [
+                    'Single RAN eNodeb XML file',                    
                 ];
             }
             if (($scope.network.selected == 'GSM') && ($scope.vendor.selected == 'Ericsson')) {
